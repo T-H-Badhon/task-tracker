@@ -1,7 +1,17 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useForm } from "react-hook-form";
+import { useUpdateTaskMutation } from "../../redux/api/task";
+import { toast } from "sonner";
 
-const TaskEdit = ({ selectedTask, setIsEdit }: { selectedTask: any,setIsEdit:any}) => {
+const TaskEdit = ({
+  setIsOpen,
+  selectedTask,
+  setIsEdit,
+}: {
+  selectedTask: any;
+  setIsEdit: any;
+  setIsOpen: any;
+}) => {
   const { register, handleSubmit, reset } = useForm({
     values: {
       title: selectedTask?.title,
@@ -11,8 +21,22 @@ const TaskEdit = ({ selectedTask, setIsEdit }: { selectedTask: any,setIsEdit:any
     },
   });
 
-  const onSubmit = (data: any) => {
-    console.log(data);
+  const [updateTask] = useUpdateTaskMutation();
+
+
+  const onSubmit = async (data: any) => {
+    const payload = { id: selectedTask?._id, taskData: data }  
+    const res = await updateTask(payload);
+
+    if (res?.data) {
+      toast.success("Task Updated Successfull.");
+      reset();
+      setIsEdit(false);
+      setIsOpen(false)
+    } else {
+      const err = res?.error as any;
+      toast.error(err?.data?.errorMessage);
+    }
   };
 
   return (
@@ -46,10 +70,14 @@ const TaskEdit = ({ selectedTask, setIsEdit }: { selectedTask: any,setIsEdit:any
             </div>
 
             <div>
-            <label htmlFor="dueDate" className="block mb-2 text-sm">
-               Status
+              <label htmlFor="dueDate" className="block mb-2 text-sm">
+                Status
               </label>
-              <select id="status" {...register("status")} className={`mt-1 p-1 block w-full rounded-md border-gray-300 card-shadow-full focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 }`}>
+              <select
+                id="status"
+                {...register("status")}
+                className={`mt-1 p-1 block w-full rounded-md border-gray-300 card-shadow-full focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 }`}
+              >
                 <option value="incomplete">Incomplete</option>
                 <option value="complete">Complete</option>
               </select>
@@ -71,10 +99,14 @@ const TaskEdit = ({ selectedTask, setIsEdit }: { selectedTask: any,setIsEdit:any
             <div></div>
 
             <div>
-              <button type="reset" onClick={()=>{
-                reset()
-                setIsEdit(false)
-              }} className="py-1 px-2 border border-blue-800 rounded-md text-blue-800 mr-3">
+              <button
+                type="reset"
+                onClick={() => {
+                  reset();
+                  setIsEdit(false);
+                }}
+                className="py-1 px-2 border border-blue-800 rounded-md text-blue-800 mr-3"
+              >
                 cancel
               </button>
               <button className="py-1 px-2 bg-blue-800 text-white rounded-md">

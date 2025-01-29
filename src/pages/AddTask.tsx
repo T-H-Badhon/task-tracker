@@ -1,8 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useForm } from "react-hook-form";
+import { useAddTaskMutation } from "../redux/api/task";
+import { toast } from "sonner";
 
 const AddTask = () => {
-  const { register, handleSubmit } = useForm({
+  const { register, handleSubmit, reset } = useForm({
     defaultValues: {
       title: "",
       dueDate: "",
@@ -10,8 +12,18 @@ const AddTask = () => {
     },
   });
 
-  const onSubmit = (data: any) => {
-    console.log(data);
+  const [addTask]= useAddTaskMutation()
+
+  const onSubmit = async (data: any) => {
+    const res = await addTask(data)
+
+    if (res?.data) {
+      toast.success("Task added Successfully.");
+      reset();
+    } else {
+      const err = res?.error as any;
+      toast.error(err?.data?.errorMessage);
+    }
   };
 
   return (

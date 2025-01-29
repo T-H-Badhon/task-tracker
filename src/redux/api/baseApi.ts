@@ -1,23 +1,41 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import {
+  BaseQueryApi,
+  BaseQueryFn,
+  DefinitionType,
+  FetchArgs,
+  createApi,
+  fetchBaseQuery
+} from '@reduxjs/toolkit/query/react';
 
-import { RootState } from "../store";
-
-const BaseQuery = fetchBaseQuery({
-  baseUrl: "https://sport-item-server.vercel.app/api/v1/",
-  prepareHeaders: (Headers, { getState }) => {
-    const token = (getState() as RootState).auth.token;
-
+const baseQuery = fetchBaseQuery({
+  baseUrl: import.meta.env.VITE_API_URL,
+  credentials: 'include',
+  prepareHeaders: (headers) => {
+    const token = sessionStorage.getItem('accessToken');
     if (token) {
-      Headers.set("authorization", token);
+      headers.set('authorization', token);
     }
 
-    return Headers;
-  },
+    return headers;
+  }
 });
 
+const baseQueryWithRefreshToken: BaseQueryFn<
+  FetchArgs,
+  BaseQueryApi,
+  DefinitionType
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+> = async (args, api, extraOptions): Promise<any> => {
+  const result = await baseQuery(args, api, extraOptions);
+
+  return result;
+};
+
 export const baseApi = createApi({
-  reducerPath: "baseApi",
-  baseQuery: BaseQuery,
-  tagTypes: ["products"],
-  endpoints: () => ({}),
+  reducerPath: 'baseApi',
+  baseQuery: baseQueryWithRefreshToken,
+  tagTypes: [
+    "task"
+  ],
+  endpoints: () => ({})
 });

@@ -1,48 +1,47 @@
 import { baseApi } from "./baseApi";
 
-
 const productApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-    allProducts: builder.query({
+    myTask: builder.query({
       query: (queries) => ({
-        url: `products/`,
+        url: `/task/my-tasks`,
         method: "GET",
         params: queries,
       }),
-      providesTags: ["products"],
+      providesTags: ["task"],
     }),
-    addProduct: builder.mutation({
+    addTask: builder.mutation({
       query: (productData) => ({
-        url: "products/add-product",
+        url: "/task/add-task",
         method: "POST",
         body: productData,
       }),
-      invalidatesTags: ["products"],
+      invalidatesTags: ["task"],
     }),
-    updateProduct: builder.mutation({
+    updateTask: builder.mutation({
       query: (args) => {
+        console.log("taskData",args )
         return {
-          url: `products/update-product/${args.id}`,
-          method: "PATCH",
-          body: args.productData,
+          url: `/task/update-task/${args.id}`,
+          method: "PUT",
+          body: args.taskData,
         };
       },
-      invalidatesTags: ["products"],
+      invalidatesTags: ["task"],
     }),
-    deleteProduct: builder.mutation({
-      query: (ids) => ({
-        url: "products/delete",
+    deleteTask: builder.mutation({
+      query: (id) => ({
+        url: "/task/delete/" + id,
         method: "DELETE",
-        body: { ids: ids },
       }),
-      invalidatesTags: ["products"],
+      invalidatesTags: ["task"],
     }),
   }),
 });
 
 export const {
-  useAllProductsQuery,
-  useAddProductMutation,
-  useUpdateProductMutation,
-  useDeleteProductMutation,
+  useAddTaskMutation,
+  useMyTaskQuery,
+  useUpdateTaskMutation,
+  useDeleteTaskMutation,
 } = productApi;

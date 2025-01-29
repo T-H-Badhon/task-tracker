@@ -3,12 +3,15 @@ import { useState } from "react";
 import { FiPlus } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import TaskEdit from "../components/task/TaskEdit";
+import { useMyTaskQuery } from "../redux/api/task";
 
 const AllTask = () => {
   const [selected, setSelected] = useState<any>();
 
   const [isOpen, setIsOpen] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
+
+  const {data:taskData}= useMyTaskQuery({})
 
   return (
     <>
@@ -39,24 +42,21 @@ const AllTask = () => {
               </tr>
             </thead>
             <tbody>
-              <tr
+              {taskData?.data?.map((task:any,index:number)=>{
+                return <tr
                 onClick={() => {
                   setIsOpen(true);
-                  setSelected({
-                    title: "sfsfasf",
-                    status: "incomplete",
-                    description: "fsdfsdffffffff",
-                    dueDate: "2025-01-29",
-                  });
+                  setSelected(task);
                 }}
                 className="cursor-pointer"
               >
-                <td>ds</td>
-                <td>ds</td>
-                <td>ds</td>
-                <td>ds</td>
-                <td>ds</td>
+                <td>{index+1}</td>
+                <td>{task?.title}</td>
+                <td>{task?.description}</td>
+                <td>{new Date(task?.dueDate).toDateString()}</td>
+                <td>{task?.status}</td>
               </tr>
+              })}
             </tbody>
           </table>
         </div>
@@ -99,7 +99,7 @@ const AllTask = () => {
 
           {isEdit ? (
             <div>
-              <TaskEdit selectedTask={selected} setIsEdit={setIsEdit} />
+              <TaskEdit selectedTask={selected} setIsEdit={setIsEdit} setIsOpen={setIsOpen} />
             </div>
           ) : (
             <div>

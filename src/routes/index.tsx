@@ -4,6 +4,7 @@ import AllTask from "../pages/AllTask";
 import AddTask from "../pages/AddTask";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
+import ProtectedRoute from "./ProtectedRoutes";
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -11,11 +12,11 @@ export const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <AllTask/>,
+        element: <ProtectedRoute><AllTask/></ProtectedRoute>,
       },
       {
         path: "/add-task",
-        element: <AddTask/>,
+        element: <ProtectedRoute><AddTask/></ProtectedRoute>,
       },
       {
         path: "/login",
