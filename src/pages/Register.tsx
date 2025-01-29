@@ -1,4 +1,4 @@
-import React from 'react';
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 
@@ -13,7 +13,7 @@ const Register = () => {
         }
     })
 
-    const onSubmit = (data)=>{
+    const onSubmit = (data:any)=>{
         console.log(data)
     }
 

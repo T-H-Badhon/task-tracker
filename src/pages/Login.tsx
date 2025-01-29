@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 
@@ -10,7 +11,7 @@ const Login = () => {
         }
     })
 
-    const onSubmit = (data)=>{
+    const onSubmit = (data:any)=>{
         console.log(data)
     }
 
