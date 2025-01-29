@@ -20,7 +20,6 @@ const productApi = baseApi.injectEndpoints({
     }),
     updateTask: builder.mutation({
       query: (args) => {
-        console.log("taskData",args )
         return {
           url: `/task/update-task/${args.id}`,
           method: "PUT",

@@ -22,7 +22,6 @@ const Main = () => {
     useEffect(() => {
       if (data?.data) {
         const user = data?.data
-        console.log(user)
         
         dispatch(setUser({
           _id: user?._id,

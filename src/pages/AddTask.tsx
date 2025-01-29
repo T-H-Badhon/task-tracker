@@ -35,7 +35,7 @@ const AddTask = () => {
       </div>
 
       <div>
-        <form action="" onSubmit={handleSubmit(onSubmit)}>
+        <form action="" onSubmit={handleSubmit(onSubmit)} className="space-y-5">
           <div className="grid grid-cols-2 gap-5">
             <div>
               <label htmlFor="title" className="block mb-2 text-sm">
@@ -80,11 +80,11 @@ const AddTask = () => {
             <div></div>
 
             <div>
-              <button className="py-1 px-2 border border-blue-800 rounded-md text-blue-800 mr-3">
-                cancel
+              <button onClick={()=>{ reset()}} className="py-1 px-2 border border-blue-800 rounded-md text-blue-800 mr-3">
+                Reset
               </button>
               <button className="py-1 px-2 bg-blue-800 text-white rounded-md">
-                submit
+                Submit
               </button>
             </div>
           </div>
