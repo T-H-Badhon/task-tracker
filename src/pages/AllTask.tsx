@@ -86,81 +86,84 @@ const AllTask = () => {
               </select>
             </div>
           </div>
-          <table>
-            <thead>
-              <tr>
-                <th></th>
-                <th className="w-10 hidden md:block">#</th>
-                <th>Task</th>
-                <th className="hidden md:block">Due Date</th>
-                <th>Status</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {taskData?.data?.map((task: any, index: number) => {
-                return (
-                  <tr
-                    key={task?._id}
-                    onClick={() => {
-                      setIsOpen(true);
-                      setSelected(task);
-                    }}
-                    className="cursor-pointer"
-                  >
-                    <td
-                      onClick={(e) => {
-                        e.stopPropagation();
+
+          <div className="mt-10">
+            <table>
+              <thead>
+                <tr>
+                  <th></th>
+                  <th className="w-10 hidden md:table-cell">#</th>
+                  <th className="w-[calc(50%)]">Task</th>
+                  <th className="hidden md:table-cell">Due Date</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {taskData?.data?.map((task: any, index: number) => {
+                  return (
+                    <tr
+                      key={task?._id}
+                      onClick={() => {
+                        setIsOpen(true);
+                        setSelected(task);
                       }}
+                      className="cursor-pointer"
                     >
-                      <input
-                        type="checkbox"
-                        name=""
-                        id=""
-                        defaultChecked={
-                          task?.status == "complete" ? true : false
-                        }
-                        onChange={(e) => {
-                          const value = e.target.checked;
-
-                          handleUpdateStatus(task?._id, value);
-                        }}
-                      />
-                    </td>
-                    <td>{index + 1}</td>
-
-                    <td className="text-sm md:text-base">{task?.title}</td>
-
-                    <td className="hidden md:block">
-                      {new Date(task?.dueDate).toDateString()}
-                    </td>
-                    <td>
-                      <h1
-                        className={` px-2 pb-[1px] w-fit rounded-full uppercase text-xs md:text-sm font-semibold ${
-                          task?.status == "complete"
-                            ? "bg-green-400/40 text-green-700"
-                            : "bg-yellow-200/40 text-yellow-600"
-                        }`}
-                      >
-                        {task?.status == "complete" ? "completed" : "pending"}
-                      </h1>
-                    </td>
-                    <td>
-                      <button
+                      <td
                         onClick={(e) => {
                           e.stopPropagation();
-
-                          handleDelete(task?._id);
                         }}
                       >
-                        <AiOutlineDelete className="text-base rounded bg-red-300 w-6 h-6 p-1 text-red-700" />
-                      </button>
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
+                        <input
+                          type="checkbox"
+                          name=""
+                          id=""
+                          defaultChecked={
+                            task?.status == "complete" ? true : false
+                          }
+                          onChange={(e) => {
+                            const value = e.target.checked;
+
+                            handleUpdateStatus(task?._id, value);
+                          }}
+                        />
+                      </td>
+                      <td className="hidden md:table-cell">{index + 1}</td>
+
+                      <td className="text-sm md:text-base">{task?.title}</td>
+
+                      <td className="hidden md:table-cell">
+                        {new Date(task?.dueDate).toDateString()}
+                      </td>
+                      <td>
+                        <h1
+                          className={` px-2 pb-[1px] w-fit rounded-full uppercase text-xs md:text-sm font-semibold ${
+                            task?.status == "complete"
+                              ? "bg-green-400/40 text-green-700"
+                              : "bg-yellow-200/40 text-yellow-600"
+                          }`}
+                        >
+                          {task?.status == "complete" ? "completed" : "pending"}
+                        </h1>
+                      </td>
+                      <td>
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+
+                            handleDelete(task?._id);
+                          }}
+                        >
+                          <AiOutlineDelete className="text-base rounded bg-red-300 w-6 h-6 p-1 text-red-700" />
+                        </button>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
 
