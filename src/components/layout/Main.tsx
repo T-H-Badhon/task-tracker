@@ -13,16 +13,16 @@ const Main = () => {
     // hooks
     const dispatch = useAppDispatch();
     const user = useAppSelector((state) => state.auth);
-    console.log(user)
   
     // state
     const [laoding, setLoading] = useState(true);
     // query
-    const { data,isFetching } = useGetUserProfileByTokenQuery({},{skip:user?.email == "" });
+    const { data,isFetching } = useGetUserProfileByTokenQuery({},{skip:user?.email != "" });
   
     useEffect(() => {
       if (data?.data) {
         const user = data?.data
+        console.log(user)
         
         dispatch(setUser({
           _id: user?._id,
@@ -40,7 +40,7 @@ const Main = () => {
     }, [data?.data, isFetching]);
   
     if (laoding) {
-      return <Loader height="100vh" />;
+      return <Loader/>;
     }
 
 

@@ -3,7 +3,9 @@ import { useState } from "react";
 import { FiPlus } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import TaskEdit from "../components/task/TaskEdit";
-import { useMyTaskQuery } from "../redux/api/task";
+import { useDeleteTaskMutation, useMyTaskQuery } from "../redux/api/task";
+import { AiOutlineDelete } from "react-icons/ai";
+import { toast } from "sonner";
 
 const AllTask = () => {
   const [selected, setSelected] = useState<any>();
@@ -12,6 +14,20 @@ const AllTask = () => {
   const [isEdit, setIsEdit] = useState(false);
 
   const {data:taskData}= useMyTaskQuery({})
+
+  const [deleteTask]= useDeleteTaskMutation()
+
+  const handleDelete= async (id:string)=>{
+    const res = await deleteTask(id)
+    if (res?.data) {
+      toast.success("Task deleted Successfully.");
+
+
+    } else {
+      const err = res?.error as any;
+      toast.error(err?.data?.errorMessage);
+    }
+  }
 
   return (
     <>
@@ -39,6 +55,7 @@ const AllTask = () => {
                 <th>Description</th>
                 <th>Due Date</th>
                 <th>Status</th>
+                <th>Action</th>
               </tr>
             </thead>
             <tbody>
@@ -55,6 +72,11 @@ const AllTask = () => {
                 <td>{task?.description}</td>
                 <td>{new Date(task?.dueDate).toDateString()}</td>
                 <td>{task?.status}</td>
+                <td><button onClick={(e)=>{
+                  e.stopPropagation()
+
+                  handleDelete(task?._id)
+                }} ><AiOutlineDelete className="text-base rounded bg-red-300 w-6 h-6 p-1 text-red-700" /></button></td>
               </tr>
               })}
             </tbody>

@@ -1,8 +1,7 @@
-export default function Loader({ height = '200px' }: { height?: string }) {
+export default function Loader() {
     return (
       <div
-        className="d-flex justify-content-center align-items-center"
-        style={{ height, width: '100%' }}
+        className="flex items-center justify-center h-screen w-screen"
       >
         <img
           src="/images/loading.gif"
