@@ -243,7 +243,7 @@ const AllTask = () => {
                     Description
                   </h1>
 
-                  <pre className="font-sans">{selected?.description}</pre>
+                  <pre className="font-sans text-wrap">{selected?.description}</pre>
                 </div>
               </div>
             </div>
