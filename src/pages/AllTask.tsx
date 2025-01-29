@@ -47,7 +47,7 @@ const AllTask = () => {
     <>
       <div className="max-w-[1100px] mx-auto my-20 p-5 card-shadow-full rounded-sm">
         <div className="flex items-center justify-between">
-          <h1>Manage Tasks</h1>
+          <h1 className="font-semibold text-blue-800">Manage Tasks</h1>
 
           <Link
             to={"/add-task"}
